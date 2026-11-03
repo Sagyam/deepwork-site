@@ -1,0 +1,54 @@
+---
+import { Clock, Flag, LifeBuoy, Terminal, Waypoints } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+const rails = [
+  {
+    icon: Clock,
+    title: 'Six hours, then it ends',
+    text: 'No session runs past six hours. The ceiling is in the code, not the config, so no setting can raise it.',
+  },
+  {
+    icon: Flag,
+    title: 'Surrender is always there',
+    text: 'Type a long phrase by hand (paste is refused) and wait ten minutes with the throttle on. Then the session ends, and it costs you.',
+  },
+  {
+    icon: LifeBuoy,
+    title: 'The sudo lock fails open',
+    text: 'If the daemon is down, hung or missing, the PAM gate lets you through. A bug can never lock you out of your own machine.',
+  },
+  {
+    icon: Terminal,
+    title: 'TTY root always works',
+    text: 'Ctrl+Alt+F3 and a root login is the emergency exit, with every step to lift the rules written down.',
+  },
+  {
+    icon: Waypoints,
+    title: 'DNS is yours outside sessions',
+    text: 'Your resolver, strict DNS-over-TLS included, is only rerouted while a session runs. A crash can’t break name resolution.',
+  },
+];
+---
+
+<section class="border-t border-border bg-band py-24 sm:py-28" aria-labelledby="safety-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Safety rails" id="safety-title">
+      <Fragment slot="title">A way out, never a lockout.</Fragment>
+      Something that fights its own owner needs an exit it can’t take away. These are written into the plan as rails that
+      no later change may remove.
+    </SectionHeading>
+
+    <div class="mt-14 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        rails.map(({ icon: Icon, title, text }) => (
+          <div>
+            <Icon class="size-5 text-brand" aria-hidden="true" />
+            <h3 class="mt-4 font-display font-semibold">{title}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,40 @@
+---
+import Logo from './Logo.astro';
+import GitHubIcon from './GitHubIcon.astro';
+
+const links = [
+  ['How it works', '#how'],
+  ['Tour', '#tour'],
+  ['The city', '#city'],
+  ['Hard to cheat', '#cheat'],
+  ['The book', '#book'],
+  ['Quick start', '#start'],
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-border/70 bg-background/80 backdrop-blur-md">
+  <nav class="container-page flex h-14 items-center justify-between gap-6" aria-label="Main">
+    <a href="#top" class="flex items-center gap-2.5 font-display font-semibold">
+      <Logo size={28} class="rounded-md" />
+      DeepWork
+    </a>
+    <ul class="hidden items-center gap-6 text-sm text-muted-foreground lg:flex">
+      {
+        links.map(([label, href]) => (
+          <li>
+            <a href={href} class="transition-colors hover:text-foreground">
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <a
+      href="https://github.com/Sagyam/DeepWork"
+      class="inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-sm font-medium shadow-xs transition-colors hover:bg-muted"
+    >
+      <GitHubIcon />
+      GitHub
+    </a>
+  </nav>
+</header>

@@ -1,0 +1,44 @@
+---
+import { Puzzle, Hourglass, Building2 } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+const cards = [
+  {
+    icon: Puzzle,
+    title: 'A block is a puzzle',
+    text: 'A blocked site is a challenge, and anyone with sudo and a terminal can solve it in a minute. The urge wins, with a side of pride.',
+  },
+  {
+    icon: Hourglass,
+    title: 'A crawl is just boring',
+    text: 'At 256 kbit/s and 400 ms of extra latency, video buffers at 240p and images take half a minute. There is nothing to beat, just nothing worth the wait.',
+  },
+  {
+    icon: Building2,
+    title: 'Losing hurts more than winning pleases',
+    text: 'Every finished session is a building you watched go up. Quitting early means watching it fall, with your name on the rubble.',
+  },
+];
+---
+
+<section class="py-24 sm:py-28" aria-labelledby="why-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Why" id="why-title">
+      <Fragment slot="title">Slow beats blocked.</Fragment>
+      Most blockers start a fight you can win with one command. DeepWork doesn’t try to stop you. It makes the
+      distraction too dull to bother with, and makes giving in cost something you care about.
+    </SectionHeading>
+
+    <div class="mt-12 grid gap-4 md:grid-cols-3">
+      {
+        cards.map(({ icon: Icon, title, text }) => (
+          <div class="card p-6">
+            <Icon class="size-5 text-brand" aria-hidden="true" />
+            <h3 class="mt-5 font-display text-lg font-semibold">{title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">{text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,96 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+// Newport's four rules (the four parts of the book) and where each shows up here.
+const rules = [
+  {
+    n: 1,
+    rule: 'Work Deeply',
+    idea: 'Willpower runs out, so build rituals around depth, and keep a compelling scoreboard of the hours you put in.',
+    feature: 'The city is the scoreboard',
+    how: 'Every focused hour is on the skyline. You see your deep work instead of counting it.',
+  },
+  {
+    n: 2,
+    rule: 'Embrace Boredom',
+    idea: 'Don’t take breaks from distraction. Take breaks from focus, and decide in advance when they happen.',
+    feature: 'Inverted mode',
+    how: 'Distracting sites stay slow all day. Finished sessions earn free minutes you spend on purpose.',
+  },
+  {
+    n: 3,
+    rule: 'Quit Social Media',
+    idea: 'Keep a tool only if its benefits clearly outweigh its costs, judged with a clear head.',
+    feature: 'Site lists with a cooling-off',
+    how: 'Slow or block per domain. Loosening a list waits 24 hours, so the urge never gets the vote.',
+  },
+  {
+    n: 4,
+    rule: 'Drain the Shallows',
+    idea: 'Schedule every minute of your day, so deep work has a block of its own instead of the leftovers.',
+    feature: 'Routines',
+    how: 'Time blocks become sessions that start on their own. Skips are rationed to a few a week.',
+  },
+];
+---
+
+<section id="book" class="py-24 sm:py-28" aria-labelledby="book-title">
+  <div class="container-page">
+    <div class="grid items-center gap-12 lg:grid-cols-[1fr_auto]">
+      <SectionHeading eyebrow="The inspiration" id="book-title">
+        <Fragment slot="title">Named after a book.</Fragment>
+        <p>
+          In <cite class="not-italic font-medium text-foreground">Deep Work</cite> (2016), Cal Newport argues that the ability
+          to focus without distraction is getting rarer at exactly the moment it’s getting more valuable, and that you don’t
+          get it back by trying harder. You get it by building rituals and taking the alternatives off the table.
+        </p>
+        <p class="mt-4">
+          DeepWork is that advice with a root daemon behind it. Each of the book’s four rules maps to something the app
+          does for you, so the decision is made once, calmly, and not again every time a tab beckons.
+        </p>
+      </SectionHeading>
+
+      <!-- A typographic stand-in for the book, not its cover art. -->
+      <div class="mx-auto w-52 shrink-0 lg:mx-0 lg:w-60" aria-hidden="true">
+        <div class="relative aspect-[2/3] rotate-2 rounded-r-md rounded-l-sm bg-gradient-to-b from-[#262c4d] to-[#0d0f1a] p-6 text-white shadow-2xl shadow-night/40 ring-1 ring-white/10">
+          <div class="absolute inset-y-0 left-0 w-2 rounded-l-sm bg-black/30"></div>
+          <div class="flex h-full flex-col">
+            <p class="font-mono text-[0.6rem] tracking-[0.2em] text-white/50 uppercase">Cal Newport</p>
+            <div class="mt-auto">
+              <p class="font-display text-4xl leading-[0.95] font-bold tracking-tight">DEEP<br />WORK</p>
+              <div class="my-4 h-0.5 w-10 bg-[#f2b336]"></div>
+              <p class="text-[0.7rem] leading-snug text-white/70">Rules for Focused Success in a Distracted World</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-14 grid gap-4 md:grid-cols-2">
+      {
+        rules.map(({ n, rule, idea, feature, how }) => (
+          <div class="card flex flex-col p-6">
+            <p class="font-mono text-xs text-muted-foreground">Rule #{n}</p>
+            <h3 class="mt-1 font-display text-xl font-semibold">{rule}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-muted-foreground">{idea}</p>
+            <div class="mt-5 border-t border-dashed border-border pt-4">
+              <p class="flex items-center gap-2 text-sm font-semibold">
+                <span class="text-brand">→</span>
+                {feature}
+              </p>
+              <p class="mt-1.5 text-sm leading-relaxed text-muted-foreground">{how}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="mt-6 text-sm text-muted-foreground">
+      Read it if you haven’t: <a href="https://calnewport.com/deep-work-rules-for-focused-success-in-a-distracted-world/" class="link inline-flex items-center gap-1">
+        Deep Work on calnewport.com <ArrowUpRight class="size-3.5" aria-hidden="true" />
+      </a>
+      <span class="block mt-1 text-xs">DeepWork is an independent project and isn’t affiliated with or endorsed by Cal Newport.</span>
+    </p>
+  </div>
+</section>

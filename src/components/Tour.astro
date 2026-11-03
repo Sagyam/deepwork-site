@@ -1,0 +1,81 @@
+---
+import { Picture } from 'astro:assets';
+import SectionHeading from './SectionHeading.astro';
+import session from '../assets/shots/session.webp';
+import surrender from '../assets/shots/surrender.webp';
+import metropolis from '../assets/shots/metropolis.webp';
+import ruins from '../assets/shots/ruins.webp';
+import stats from '../assets/shots/sheet-stats.webp';
+import lists from '../assets/shots/sheet-lists.webp';
+
+const shots = [
+  {
+    src: session,
+    title: 'In session',
+    text: 'A crane works the lot while you work. The card shows time left, the building’s progress and how long you spent on slowed sites.',
+    alt: 'A focus session in progress: a building under construction with a crane, and the session timer',
+  },
+  {
+    src: surrender,
+    title: 'Surrender',
+    text: 'Type the phrase by hand, then wait ten minutes with the throttle still on. The blueprint turns red and the site trembles.',
+    alt: 'Surrendering: the building under construction is about to collapse',
+  },
+  {
+    src: metropolis,
+    title: '260 hours in',
+    text: 'Hamlet, town, city, metropolis. Each tier is earned in focused hours, and the traffic grows with it.',
+    alt: 'A metropolis after 260 focused hours, with glass towers and landmarks',
+  },
+  {
+    src: ruins,
+    title: 'What giving in costs',
+    text: 'Smashed windows, fire, rubble with rebar. Damage stays until finished sessions repair it.',
+    alt: 'Close-up of damaged buildings and rubble',
+  },
+  {
+    src: stats,
+    title: 'Stats',
+    text: 'Focused time per day, streaks, and every session kept or quit. Surrenders get a red dot.',
+    alt: 'Stats: focused time per day, completed and surrendered sessions',
+  },
+  {
+    src: lists,
+    title: 'Site lists',
+    text: 'Allow, slow or block per domain. Tightening applies at once; loosening waits 24 hours.',
+    alt: 'Site lists, with a loosening change waiting 24 hours',
+  },
+];
+---
+
+<section id="tour" class="py-24 sm:py-28" aria-labelledby="tour-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Tour" id="tour-title">
+      <Fragment slot="title">Every session, kept or quit.</Fragment>
+      One window: the city, a single card to start a session, and a settings sheet for everything else. Closing it
+      changes nothing; it’s only a view.
+    </SectionHeading>
+
+    <div class="mt-14 grid gap-x-8 gap-y-12 md:grid-cols-2">
+      {
+        shots.map(({ src, title, text, alt }) => (
+          <figure>
+            <Picture
+              src={src}
+              alt={alt}
+              formats={['avif', 'webp']}
+              fallbackFormat="webp"
+              widths={[480, 720, 1080]}
+              sizes="(min-width: 768px) 34rem, 100vw"
+              class="aspect-[8/5] w-full rounded-lg border border-border bg-night object-cover shadow-lg shadow-night/10"
+            />
+            <figcaption class="mt-5">
+              <h3 class="font-display text-lg font-semibold">{title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-muted-foreground">{text}</p>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>

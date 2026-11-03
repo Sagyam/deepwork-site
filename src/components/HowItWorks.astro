@@ -1,0 +1,130 @@
+---
+import { Timer, Radar, Gauge, Building2 } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+const steps = [
+  {
+    icon: Timer,
+    title: 'Start',
+    text: 'Set a timer or a stopwatch, or let a routine start one for you. The app only asks; the root daemon owns the session.',
+  },
+  {
+    icon: Radar,
+    title: 'Resolve',
+    text: 'The daemon answers DNS itself. When a name matches your lists, its addresses go into nftables sets. SNI checks catch what DNS misses.',
+  },
+  {
+    icon: Gauge,
+    title: 'Throttle',
+    text: 'tc and netem add latency and cap bandwidth for those addresses only. Linger on a slowed site and the throttle tightens.',
+  },
+  {
+    icon: Building2,
+    title: 'Build',
+    text: 'Finish and a building rises in your city. Surrender, tamper or tunnel out, and the city takes the damage.',
+  },
+];
+
+type Verdict = 'pass' | 'slow' | 'block';
+const rows: [string, Verdict, string][] = [
+  ['docs.rust-lang.org', 'pass', 'full speed'],
+  ['mail.google.com', 'pass', 'full speed'],
+  ['music.youtube.com', 'pass', 'allowed'],
+  ['youtube.com', 'slow', '256 kbit/s · +400 ms'],
+  ['x.com', 'slow', '256 kbit/s · +400 ms'],
+  ['reddit.com', 'block', 'reset'],
+];
+const verdictClass: Record<Verdict, string> = {
+  pass: 'bg-pass-soft text-pass',
+  slow: 'bg-brand-soft text-brand',
+  block: 'bg-loss-soft text-loss',
+};
+---
+
+<section id="how" class="border-y border-border bg-band py-24 sm:py-28" aria-labelledby="how-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="How it works" id="how-title">
+      <Fragment slot="title">One session, end to end.</Fragment>
+      No browser extension and no process killing. Enforcement lives in the kernel, where closing a window can’t
+      reach it, and your browser keeps working for the work you sat down to do.
+    </SectionHeading>
+
+    <div class="mt-14 grid items-start gap-12 lg:grid-cols-2">
+      <ol class="space-y-8">
+        {
+          steps.map(({ icon: Icon, title, text }, i) => (
+            <li class="flex gap-4">
+              <span class="grid size-9 shrink-0 place-items-center rounded-lg border border-border bg-card">
+                <Icon class="size-4 text-brand" aria-hidden="true" />
+              </span>
+              <div>
+                <h3 class="font-display font-semibold">
+                  <span class="mr-1.5 font-mono text-sm font-normal text-muted-foreground">0{i + 1}</span>
+                  {title}
+                </h3>
+                <p class="mt-2 leading-relaxed text-muted-foreground">{text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+
+      <figure>
+        <div class="card overflow-hidden shadow-xl shadow-night/10">
+          <div class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
+            <div class="flex items-center gap-3">
+              <svg class="size-10 -rotate-90" viewBox="0 0 40 40" aria-hidden="true">
+                <circle cx="20" cy="20" r="16" fill="none" stroke="currentColor" stroke-width="4" class="text-brand/20"></circle>
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-dasharray="62 101"
+                  class="text-brand"></circle>
+              </svg>
+              <div>
+                <p class="font-mono text-xl font-semibold tabular-nums">31:42</p>
+                <p class="font-mono text-xs text-muted-foreground">deep · focus timer · 50 min</p>
+              </div>
+            </div>
+            <span class="rounded-md bg-brand-soft px-2 py-1 font-mono text-xs text-brand">in session</span>
+          </div>
+
+          <ul class="divide-y divide-border/70 px-5 font-mono text-[0.8rem]">
+            {
+              rows.map(([host, verdict, detail]) => (
+                <li class="grid grid-cols-[1fr_auto] items-center gap-3 py-2.5 sm:grid-cols-[1fr_4rem_11rem]">
+                  <span class="truncate">{host}</span>
+                  <span class:list={['w-fit rounded px-1.5 py-0.5 text-[0.7rem]', verdictClass[verdict]]}>{verdict}</span>
+                  <span class="hidden text-muted-foreground sm:block">{detail}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="border-t border-border px-5 py-4">
+            <div class="flex items-baseline justify-between font-mono text-xs">
+              <span class="text-muted-foreground">building · office tower</span>
+              <span>floor 9 of 14</span>
+            </div>
+            <div class="mt-2 h-2 overflow-hidden rounded-full bg-muted">
+              <div class="h-full w-[63%] rounded-full bg-brand"></div>
+            </div>
+            <div class="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 font-mono text-xs text-muted-foreground">
+              <span><span class="text-foreground">dig @8.8.8.8</span> → redirected</span>
+              <span><span class="text-foreground">QUIC</span> → dropped</span>
+              <span><span class="text-foreground">DoH</span> → dropped</span>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-xs text-muted-foreground">
+          Illustration. Work runs at full speed; the rest waits its turn.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

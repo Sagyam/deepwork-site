@@ -1,0 +1,93 @@
+---
+import { Monitor, Sun, Moon } from '@lucide/astro';
+import Logo from './Logo.astro';
+import GitHubIcon from './GitHubIcon.astro';
+
+const repo = 'https://github.com/Sagyam/DeepWork';
+const docs = [
+  ['Plan', `${repo}/blob/main/docs/PLAN.md`],
+  ['Threat model', `${repo}/blob/main/docs/PLAN.md#threat-model`],
+  ['Development', `${repo}/blob/main/docs/DEVELOPMENT.md`],
+  ['PKGBUILD', `${repo}/blob/main/dist/PKGBUILD`],
+];
+const themes = [
+  ['system', 'System', Monitor],
+  ['light', 'Light', Sun],
+  ['dark', 'Dark', Moon],
+] as const;
+---
+
+<footer class="border-t border-border">
+  <div class="container-page grid gap-10 py-12 md:grid-cols-2">
+    <div>
+      <a href="#top" class="flex items-center gap-2.5 font-display font-semibold">
+        <Logo size={28} class="rounded-md" />
+        DeepWork
+      </a>
+      <p class="mt-4 text-sm text-muted-foreground">Focus builds a city. Giving in tears it down.</p>
+      <p class="mt-6 text-sm text-muted-foreground">
+        Built by <a href="https://sagyamthapa.com.np" class="font-medium text-foreground hover:underline">Sagyam Thapa</a>.
+      </p>
+    </div>
+    <div class="md:justify-self-end">
+      <p class="font-display text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">Docs</p>
+      <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
+        {
+          docs.map(([label, href]) => (
+            <li>
+              <a href={href} class="hover:text-foreground">
+                {label}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={repo} class="inline-flex items-center gap-1.5 hover:text-foreground"><GitHubIcon class="size-3.5" />Source</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-border">
+    <div class="container-page flex flex-col gap-4 py-5 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+      <p>MIT licensed. An independent project, not affiliated with Cal Newport.</p>
+      <div class="inline-flex w-fit rounded-lg border border-border bg-muted/50 p-0.5" role="group" aria-label="Colour theme">
+        {
+          themes.map(([value, label, Icon]) => (
+            <button
+              type="button"
+              data-theme-choice={value}
+              class="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground aria-pressed:bg-card aria-pressed:text-foreground aria-pressed:shadow-xs"
+              aria-pressed="false"
+            >
+              <Icon class="size-3.5" aria-hidden="true" />
+              {label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const root = document.documentElement;
+  const dark = matchMedia('(prefers-color-scheme: dark)');
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
+
+  function apply(pref: string) {
+    root.dataset.theme = pref;
+    root.classList.toggle('dark', pref === 'dark' || (pref === 'system' && dark.matches));
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeChoice === pref)));
+  }
+
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const pref = b.dataset.themeChoice!;
+      if (pref === 'system') localStorage.removeItem('theme');
+      else localStorage.setItem('theme', pref);
+      apply(pref);
+    }),
+  );
+  dark.addEventListener('change', () => apply(root.dataset.theme ?? 'system'));
+  apply(root.dataset.theme ?? 'system');
+</script>

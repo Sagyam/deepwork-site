@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://deepwork.sagyamthapa.com.np/sitemap-index.xml

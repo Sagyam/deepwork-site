@@ -1,0 +1,60 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+// Condensed from the threat model in docs/PLAN.md. Code spans are marked with backticks.
+const rows: [string, string][] = [
+  ['Close the app, or `kill` the daemon', 'Rules stay in the kernel and the daemon restarts'],
+  ['Reboot, or suspend through a countdown', 'The session resumes; time only counts while the machine is awake'],
+  ['Wind the clock forward', 'Elapsed time never reads the wall clock'],
+  ['`dig @8.8.8.8`, DNS-over-HTTPS, QUIC', 'Redirected to the daemon, dropped, or forced back to TCP'],
+  ['Hardcoded IPs, shared CDN addresses', 'SNI inspection judges each new TLS connection by name'],
+  ['`sudo nft flush ruleset`', 'Repaired within a second, and an earthquake hits your city'],
+  ['`sudo`, `su`, `pkexec`, `systemctl stop`', 'Refused until the session ends'],
+  ['`ssh -D`, Tor, v2ray and friends', 'Spotted, and a building cracks every ten minutes it runs'],
+  ['Loosen the config', 'Waits 24 hours. Tightening applies at once'],
+];
+
+const fmt = (s: string) =>
+  s
+    .split('`')
+    .map((part, i) => (i % 2 ? `<code class="kbd">${part}</code>` : part))
+    .join('');
+---
+
+<section id="cheat" class="py-24 sm:py-28" aria-labelledby="cheat-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Hard to cheat" id="cheat-title">
+      <Fragment slot="title">You have sudo.<br />It still isn’t worth it.</Fragment>
+      The goal isn’t an unbreakable lock. It’s that every way around takes longer than the urge lasts, and every one
+      the daemon can see costs you a building.
+    </SectionHeading>
+
+    <div class="card mt-12 overflow-hidden">
+      <table class="w-full text-left text-sm">
+        <thead class="border-b border-border bg-muted/40 font-display text-xs tracking-[0.12em] uppercase text-muted-foreground">
+          <tr>
+            <th scope="col" class="px-5 py-3 font-semibold sm:w-[45%]">You try</th>
+            <th scope="col" class="px-5 py-3 font-semibold">DeepWork</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border">
+          {
+            rows.map(([attempt, answer]) => (
+              <tr class="align-top">
+                <td class="px-5 py-3.5 leading-relaxed" set:html={fmt(attempt)} />
+                <td class="px-5 py-3.5 leading-relaxed text-muted-foreground">{answer}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+    <p class="mt-5 text-sm text-muted-foreground">
+      Every countermeasure, with how it was tested:{' '}
+      <a href="https://github.com/Sagyam/DeepWork/blob/main/docs/PLAN.md#threat-model" class="link inline-flex items-center gap-1">
+        the threat model <ArrowUpRight class="size-3.5" aria-hidden="true" />
+      </a>
+    </p>
+  </div>
+</section>

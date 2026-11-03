@@ -1,0 +1,107 @@
+---
+import { Cpu, FlaskConical, BookOpen, Copy, Check } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+const repo = 'https://github.com/Sagyam/DeepWork';
+const commands = [
+  'git clone https://github.com/Sagyam/DeepWork && cd DeepWork/dist',
+  'makepkg -si',
+  'sudo systemctl enable --now deepworkd.service',
+  'systemctl --user enable --now deepwork-agent.service',
+  'deepwork start 50m',
+];
+
+const side = [
+  {
+    icon: Cpu,
+    title: 'What it needs',
+    text: 'Arch Linux (built on Omarchy and Hyprland), nftables and tc/netem, and systemd-resolved. DNS-over-TLS keeps working.',
+  },
+  {
+    icon: FlaskConical,
+    title: 'Look before you install',
+    code: 'cargo run -p deepworkd -- --dry-run',
+    text: 'logs every nft and tc command instead of running it.',
+    href: `${repo}/blob/main/docs/DEVELOPMENT.md`,
+  },
+  {
+    icon: BookOpen,
+    title: 'Read the plan',
+    text: 'The design, the threat model and how each countermeasure was tested.',
+    href: `${repo}/blob/main/docs/PLAN.md`,
+  },
+];
+---
+
+<section id="start" class="border-t border-border bg-band py-24 sm:py-28" aria-labelledby="start-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Quick start" id="start-title">
+      <Fragment slot="title">Five commands to your first building.</Fragment>
+      The package installs the daemon, the CLI, the agent and the window, and hooks PAM and polkit. Starting the services
+      is left to you.
+    </SectionHeading>
+
+    <div class="mt-12 grid items-start gap-6 lg:grid-cols-[1.45fr_1fr]">
+      <div class="card overflow-hidden">
+        <div class="flex items-center justify-between border-b border-border px-4 py-2.5 font-mono text-xs text-muted-foreground">
+          <span>bash</span>
+          <button
+            type="button"
+            id="copy-install"
+            class="inline-flex items-center gap-1.5 rounded px-1.5 py-0.5 transition-colors hover:bg-muted hover:text-foreground"
+          >
+            <Copy class="size-3.5" data-icon="copy" aria-hidden="true" />
+            <Check class="hidden size-3.5 text-pass" data-icon="done" aria-hidden="true" />
+            <span data-label>Copy</span>
+          </button>
+        </div>
+        <pre class="overflow-x-auto px-4 py-4 font-mono text-[0.8rem] leading-7"><code id="install-commands">{commands.map((c) => <><span class="select-none text-brand">$ </span>{c}{'\n'}</>)}</code></pre>
+        <p class="border-t border-border px-4 py-3 text-sm text-muted-foreground">
+          Or grab the <code class="kbd">deepwork-git</code> package from the latest{' '}
+          <a href={`${repo}/actions/workflows/package.yml`} class="link">CI run</a> and <code class="kbd">pacman -U</code> it.
+        </p>
+      </div>
+
+      <div class="space-y-3">
+        {
+          side.map(({ icon: Icon, title, text, href, code }) => {
+            const Tag = href ? 'a' : 'div';
+            return (
+              <Tag href={href} class:list={['card flex gap-3 p-5', href && 'transition-colors hover:border-muted-foreground/50']}>
+                <Icon class="mt-0.5 size-5 shrink-0 text-brand" aria-hidden="true" />
+                <div>
+                  <h3 class="font-display font-semibold">{title}</h3>
+                  <p class="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {code && <><code class="kbd">{code}</code>{' '}</>}
+                    {text}
+                  </p>
+                </div>
+              </Tag>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const button = document.getElementById('copy-install')!;
+  const code = document.getElementById('install-commands')!;
+  button.addEventListener('click', async () => {
+    const text = code.innerText
+      .split('\n')
+      .map((l) => l.replace(/^\$ /, ''))
+      .join('\n')
+      .trim();
+    await navigator.clipboard.writeText(text);
+    button.querySelector('[data-icon=copy]')!.classList.add('hidden');
+    button.querySelector('[data-icon=done]')!.classList.remove('hidden');
+    button.querySelector('[data-label]')!.textContent = 'Copied';
+    setTimeout(() => {
+      button.querySelector('[data-icon=copy]')!.classList.remove('hidden');
+      button.querySelector('[data-icon=done]')!.classList.add('hidden');
+      button.querySelector('[data-label]')!.textContent = 'Copy';
+    }, 1600);
+  });
+</script>

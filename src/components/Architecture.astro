@@ -1,0 +1,95 @@
+---
+import { ArrowRight, ArrowDown } from '@lucide/astro';
+import SectionHeading from './SectionHeading.astro';
+
+type Box = { title: string; text: string; chips?: string[]; hot?: boolean };
+
+const clients: Box[] = [
+  { title: 'deepwork-ui', text: 'The 3D city, the start card and every setting.', chips: ['Tauri 2', 'three.js', 'Blender kit'] },
+  { title: 'deepwork', text: 'The CLI: start, status, surrender, routines, world.', chips: ['Rust'] },
+  { title: 'deepwork-agent', text: 'Notifications, heads-ups, nudges, and a bar module for Waybar or the Omarchy shell.', chips: ['notify-send'] },
+];
+
+const daemon: Box[] = [
+  { title: 'Session engine', text: 'Countdown, stopwatch, surrender. Time accrues on the monotonic clock and survives reboots.', chips: ['tokio'], hot: true },
+  { title: 'DNS forwarder', text: 'Plain or DNS-over-TLS upstreams. Matching answers fill the address sets.', chips: ['hickory', 'DoT'] },
+  { title: 'Scheduler', text: 'Routines, skip tokens, nudges and the five-minute heads-up.' },
+  { title: 'Tamper watch', text: 'Watches nft, tc and links; fingerprints the rules and repairs any change.' },
+  { title: 'SNI inspector', text: 'Reads the TLS ClientHello from NFQUEUE and judges the connection by name.', chips: ['raw netlink'] },
+  { title: 'Ledger', text: 'Sessions and penalties. The city is folded from it, never stored.', chips: ['SQLite'] },
+];
+
+const kernel: Box[] = [
+  { title: 'nftables', text: 'table inet deepwork: address sets, marks, DNS redirect, QUIC and DoH drops.' },
+  { title: 'tc + netem', text: 'Delay and a bandwidth cap for marked packets, egress and ingress via IFB.' },
+  { title: 'NFQUEUE', text: 'New TLS connections queued once for an SNI verdict. Fails open.' },
+];
+---
+
+<section class="border-t border-border py-24 sm:py-28" aria-labelledby="arch-title">
+  <div class="container-page">
+    <SectionHeading eyebrow="Architecture" id="arch-title">
+      <Fragment slot="title">The window is only a view.</Fragment>
+      All policy and all state live in a root daemon written in Rust. Clients can ask for a session but can’t end one
+      early, except by the rules. Kill every client and the kernel keeps enforcing.
+    </SectionHeading>
+
+    <div class="mt-14 grid items-stretch gap-4 lg:grid-cols-[1fr_auto_1.7fr_auto_1fr]">
+      <div>
+        <p class="mb-3 font-display text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">You · untrusted</p>
+        <div class="space-y-3">
+          {
+            clients.map((b) => (
+              <div class="card p-4">
+                <h3 class="font-mono text-sm font-semibold">{b.title}</h3>
+                <p class="mt-1.5 text-[0.8rem] leading-relaxed text-muted-foreground">{b.text}</p>
+                {b.chips && <div class="mt-3 flex flex-wrap gap-1.5">{b.chips.map((c) => <span class="chip">{c}</span>)}</div>}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-2 py-2 font-mono text-[0.65rem] tracking-wider text-muted-foreground uppercase lg:flex-col lg:py-0 lg:pt-8">
+        <ArrowRight class="hidden size-4 text-brand lg:block" aria-hidden="true" />
+        <ArrowDown class="size-4 text-brand lg:hidden" aria-hidden="true" />
+        <span class="lg:[writing-mode:vertical-rl]">unix socket · JSON</span>
+      </div>
+
+      <div class="rounded-xl border border-dashed border-muted-foreground/40 p-4">
+        <p class="mb-3 font-mono text-xs text-muted-foreground"><span class="text-brand">#</span> deepworkd · root · Restart=always</p>
+        <div class="grid gap-3 sm:grid-cols-2">
+          {
+            daemon.map((b) => (
+              <div class:list={['card p-4', b.hot && 'border-brand/50 ring-1 ring-brand/20']}>
+                <h3 class="font-display text-sm font-semibold">{b.title}</h3>
+                <p class="mt-1.5 text-[0.8rem] leading-relaxed text-muted-foreground">{b.text}</p>
+                {b.chips && <div class="mt-3 flex flex-wrap gap-1.5">{b.chips.map((c) => <span class="chip">{c}</span>)}</div>}
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-2 py-2 font-mono text-[0.65rem] tracking-wider text-muted-foreground uppercase lg:flex-col lg:py-0 lg:pt-8">
+        <ArrowRight class="hidden size-4 text-brand lg:block" aria-hidden="true" />
+        <ArrowDown class="size-4 text-brand lg:hidden" aria-hidden="true" />
+        <span class="lg:[writing-mode:vertical-rl]">nft -f · tc -batch</span>
+      </div>
+
+      <div>
+        <p class="mb-3 font-display text-xs font-semibold tracking-[0.16em] uppercase text-muted-foreground">Kernel</p>
+        <div class="space-y-3">
+          {
+            kernel.map((b) => (
+              <div class="card p-4">
+                <h3 class="font-mono text-sm font-semibold">{b.title}</h3>
+                <p class="mt-1.5 text-[0.8rem] leading-relaxed text-muted-foreground">{b.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
