@@ -3,19 +3,20 @@ import { Cpu, FlaskConical, BookOpen, Copy, Check } from '@lucide/astro';
 import SectionHeading from './SectionHeading.astro';
 
 const repo = 'https://github.com/Sagyam/DeepWork';
-const commands = [
-  'git clone https://github.com/Sagyam/DeepWork && cd DeepWork/dist',
-  'makepkg -si',
-  'sudo systemctl enable --now deepworkd.service',
-  'systemctl --user enable --now deepwork-agent.service',
-  'deepwork start 50m',
+const site = 'https://deepwork.sagyamthapa.com.np';
+const commands = [`curl -fsSL ${site}/get.sh | sh`, 'deepwork start 50m'];
+const packages = [
+  ['Debian, Ubuntu', '.deb'],
+  ['Fedora, openSUSE', '.rpm'],
+  ['Arch', 'pacman'],
+  ['Anything else', 'tarball'],
 ];
 
 const side = [
   {
     icon: Cpu,
     title: 'What it needs',
-    text: 'Arch Linux (built on Omarchy and Hyprland), nftables and tc/netem, and systemd-resolved. DNS-over-TLS keeps working.',
+    text: 'Linux with systemd: Debian 12+, Ubuntu 22.04+, Fedora, openSUSE or Arch, on x86_64 or ARM64. nftables and tc/netem. DNS-over-TLS keeps working.',
   },
   {
     icon: FlaskConical,
@@ -36,9 +37,10 @@ const side = [
 <section id="start" class="border-t border-border bg-band py-24 sm:py-28" aria-labelledby="start-title">
   <div class="container-page">
     <SectionHeading eyebrow="Quick start" id="start-title">
-      <Fragment slot="title">Five commands to your first building.</Fragment>
-      The package installs the daemon, the CLI, the agent and the window, and hooks PAM and polkit. Starting the services
-      is left to you.
+      <Fragment slot="title">Two commands to your first building.</Fragment>
+      The script picks the package for your distribution from the latest release, checks it, installs it with apt, dnf,
+      zypper or pacman, and starts the daemon. The package brings the CLI, the agent and the window, and hooks PAM and
+      polkit.
     </SectionHeading>
 
     <div class="mt-12 grid items-start gap-6 lg:grid-cols-[1.45fr_1fr]">
@@ -56,9 +58,19 @@ const side = [
           </button>
         </div>
         <pre class="overflow-x-auto px-4 py-4 font-mono text-[0.8rem] leading-7"><code id="install-commands">{commands.map((c) => <><span class="select-none text-brand">$ </span>{c}{'\n'}</>)}</code></pre>
+        <ul class="grid grid-cols-2 gap-px border-t border-border bg-border text-sm sm:grid-cols-4">
+          {
+            packages.map(([distro, kind]) => (
+              <li class="bg-card px-4 py-3">
+                <span class="block text-muted-foreground">{distro}</span>
+                <code class="font-mono text-xs text-foreground">{kind}</code>
+              </li>
+            ))
+          }
+        </ul>
         <p class="border-t border-border px-4 py-3 text-sm text-muted-foreground">
-          Or grab the <code class="kbd">deepwork-git</code> package from the latest{' '}
-          <a href={`${repo}/actions/workflows/package.yml`} class="link">CI run</a> and <code class="kbd">pacman -U</code> it.
+          Read <a href="/get.sh" class="link">the script</a> before you pipe it, or download a package from the{' '}
+          <a href={`${repo}/releases/latest`} class="link">latest release</a> yourself.
         </p>
       </div>
 
