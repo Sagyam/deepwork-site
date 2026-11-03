@@ -1,0 +1,34 @@
+<!-- Social card. Render at 1200x630 (og.jpg) and 1280x640 (DeepWork assets/social-preview.jpg)
+     with --w/--h set on :root, e.g. in Playwright: addStyleTag(":root{--w:1200px;--h:630px}").
+     city.webp: the mock UI, ?mock=metropolis&hour=18.3, #hud hidden, 1600x1000. -->
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:SG;src:url(../public/fonts/space-grotesk-latin-wght-normal.woff2);font-weight:300 700}
+@font-face{font-family:WS;src:url(../public/fonts/work-sans-latin-wght-normal.woff2);font-weight:100 900}
+@font-face{font-family:JB;src:url(../public/fonts/jetbrains-mono-latin-wght-normal.woff2);font-weight:100 800}
+*{margin:0;box-sizing:border-box}
+html,body{width:var(--w);height:var(--h);overflow:hidden;background:#0b1020}
+body{position:relative;font-family:WS;color:#f8fafc}
+.city{position:absolute;inset:0 0 0 auto;width:64%;background:url(city.webp) 62% 50%/auto 112% no-repeat;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40%);mask-image:linear-gradient(90deg,transparent 0,#000 40%)}
+.vignette{position:absolute;inset:0;background:
+  radial-gradient(60% 70% at 72% 55%,transparent 40%,#0b102099 100%),
+  linear-gradient(180deg,#0b102066 0,transparent 25%,transparent 75%,#0b1020aa 100%)}
+.glow{position:absolute;left:-10%;top:-30%;width:70%;height:90%;background:radial-gradient(closest-side,#f2b33622,transparent)}
+.text{position:absolute;left:calc(var(--h)*.11);top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:48%}
+.brand{display:flex;align-items:center;gap:18px;font-family:SG;font-weight:600;font-size:34px;letter-spacing:-.01em}
+.brand img{width:68px;height:68px;border-radius:16px;box-shadow:0 10px 30px #0008,0 0 0 1px #ffffff14}
+h1{font-family:SG;font-weight:700;font-size:64px;line-height:1.02;letter-spacing:-.03em;margin-top:44px;text-shadow:0 2px 24px #0b1020}
+h1 span{display:block;color:#f2b336}
+p{margin-top:26px;font-size:23px;color:#b4c0d3;line-height:1.4;max-width:560px;text-shadow:0 1px 12px #0b1020}
+.foot{position:absolute;left:calc(var(--h)*.11);bottom:calc(var(--h)*.08);font-family:JB;font-size:19px;color:#8090a8;display:flex;gap:14px}
+.foot b{color:#f2b336;font-weight:500}
+.foot i{font-style:normal;color:#e45858}
+</style></head><body>
+<div class="city"></div><div class="vignette"></div><div class="glow"></div>
+<div class="text">
+  <div class="brand"><img src="../src/assets/logo.svg">DeepWork</div>
+  <h1>Focus builds<br>a city.<span>Giving in<br>tears it down.</span></h1>
+  <p>A focus app for Linux that is hard to get around.</p>
+</div>
+<div class="foot"><span><b>$</b> deepwork start 50m</span><span>·</span><span>nftables + tc</span><span>·</span><span>Linux</span></div>
+</body></html>

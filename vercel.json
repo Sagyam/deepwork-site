@@ -17,7 +17,7 @@
       ]
     },
     {
-      "source": "/(demo.mp4|demo-poster.webp|og.png)",
+      "source": "/(demo.mp4|demo-poster.webp|og.jpg)",
       "headers": [
         {
           "key": "Cache-Control",
