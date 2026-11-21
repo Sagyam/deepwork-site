@@ -21,8 +21,9 @@ bun run build     # static site in dist/
 | `src/assets/shots/` | App screenshots, resized to AVIF/WebP at build time |
 | `public/` | Demo video and poster, OG image, icons, self-hosted latin font subsets |
 
-Screenshots and the demo come from the DeepWork repo's `assets/`. The demo video is that repo's `demo.webp`
-re-encoded to H.264 (`ffmpeg -crf 30 -tune animation`), about a sixth of the size.
+Screenshots come from the DeepWork repo's `assets/`. The demo is the same capture at 1920x1080 (10 fps,
+`quality=high`): `demo-av1.mp4` is AV1 (SVT-AV1, CRF 48, 10-bit), `demo.mp4` the H.264 fallback at 720p for
+browsers without AV1. The DeepWork repo's `docs/DEVELOPMENT.md` says how the capture is made.
 
 ## Deploy
 

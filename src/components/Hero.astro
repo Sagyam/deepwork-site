@@ -64,17 +64,18 @@ const strip = [
           <span class="ml-3 font-mono text-xs text-muted-foreground">deepwork-ui · hamlet → metropolis</span>
         </div>
         <video
-          class="block aspect-[8/5] w-full bg-night"
-          width="720"
-          height="450"
+          class="block aspect-video w-full bg-night"
+          width="1920"
+          height="1080"
           autoplay
           muted
           loop
           playsinline
           preload="metadata"
           poster="/demo-poster.webp"
-          aria-label="Set a timer and watch a building rise and a hamlet grow into a metropolis; surrender and a tower collapses; then the stats and site lists in settings."
+          aria-label="Set a timer and watch a building rise and a hamlet grow into a city, then a metropolis that lights up at dusk; surrender and a tower collapses, leaving burned buildings; then the stats and site lists in settings."
         >
+          <source src="/demo-av1.mp4" type='video/mp4; codecs="av01.0.08M.10"' />
           <source src="/demo.mp4" type="video/mp4" />
         </video>
       </div>
